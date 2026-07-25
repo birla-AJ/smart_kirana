@@ -1,0 +1,25 @@
+export const ENDPOINTS = {
+  AUTH: {
+    SEND_OTP: '/auth/otp/send',
+    VERIFY_OTP: '/auth/otp/login',
+    REFRESH: '/auth/refresh',
+    LOGOUT: '/auth/logout',
+  },
+  PRODUCTS: '/products',
+  CATEGORIES: '/categories',
+  SUBCATEGORIES: '/subcategories',
+  BRANDS: '/brands',
+  BANNERS: '/banners',
+  CART: '/cart',
+  WISHLIST: '/wishlist',
+  ORDERS: '/orders',
+  CUSTOMERS: {
+    PROFILE: '/customers/me',
+    ADDRESSES: '/customers/addresses',
+    WALLET: '/customers/wallet',
+  },
+  COUPONS: '/coupons',
+  OFFERS: '/offers',
+  DELIVERY_SLOTS: '/delivery-slots',
+  REVIEWS: '/reviews',
+};

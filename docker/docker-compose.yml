@@ -1,0 +1,49 @@
+# Nimad Kirana — Postgres + Redis for local dev or EC2 deployment.
+# The NestJS API itself runs via PM2 (see backend/ecosystem.config.js),
+# not in this compose file, so logs/restarts stay consistent with how
+# Zelvix already manages its other Node services.
+#
+# Usage:
+#   cd docker && docker compose up -d
+#   docker compose logs -f
+#   docker compose down          # stop
+#   docker compose down -v       # stop AND wipe the DB volume
+
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: nimad-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: nimad_kirana
+    ports:
+      - "5432:5432"
+    volumes:
+      - nimad_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: nimad-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - nimad_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  nimad_postgres_data:
+  nimad_redis_data:
